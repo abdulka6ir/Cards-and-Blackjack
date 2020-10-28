@@ -1,0 +1,479 @@
+Card.java:
+
+public class Card implements Comparable {
+//Symbolic constants
+
+public static final int CLUB = 0;
+public static final int DIAMOND = 1;
+public static final int HEART = 2;
+public static final int SPADE = 3;
+  
+int rnk, suit1;
+boolean faceUp1;
+
+/**
+* Construct a card of the given rank, suit and whether it is faceup or
+* facedown. The rank is an integer from 2 to 14. Numbered cards (2 to 10)
+* have a rank equal to their number. Jack, Queen, King and Ace have the ranks
+* 11, 12, 13, and 14 respectively. The suit is an integer from 0 to 3 for
+* Clubs, Diamonds, Hearts and Spades respectively.
+*
+* @param rank
+* @param suit
+* @param faceUp
+*/
+public Card(int rank, int suit, boolean faceUp) {
+//FIX THIS
+rnk = rank;
+suit1 = suit;
+faceUp1 = faceUp;
+}
+
+/**
+* @return the faceUp
+*/
+public boolean isFaceUp() {
+return faceUp1; //FIX THIS
+}
+
+/**
+* @param faceUp the faceUp to set
+*/
+public void setFaceUp(boolean faceUp) {
+//FIX THIS
+faceUp1=faceUp;
+}
+
+/**
+* @return the rank
+*/
+public int getRank() {
+return rnk; //FIX THIS
+}
+
+/**
+* @return the suit
+*/
+public int getSuit() {
+return suit1;//FIX THIS
+}
+
+@Override
+public boolean equals(Object ob) {
+if (!(ob instanceof Card)) {
+return false;
+}
+Card c = (Card) ob;
+if(c.rnk == rnk && c.suit1 == suit1){
+return true;
+}else{
+return false;
+}
+//FIX THIS
+}
+
+@Override
+public int hashCode() {//DO NOT MODIFY
+int hash = 7;
+hash = 31 * hash + this.getRank();
+hash = 31 * hash + this.getSuit();
+return hash;
+}
+
+@Override
+public int compareTo(Object obj) {//DO NOT MODIFY
+return compareTo((Card) obj);
+}
+
+public int compareTo(Card c) {
+if (this.rnk<c.rnk)
+{
+return -1;
+}
+else if (this.rnk>c.rnk)
+{
+return 1;
+}
+  
+if(this.suit1 > c.suit1)
+{
+return 1;
+}
+else if(this.suit1 < c.suit1)
+{
+return -1;
+}
+else
+{
+return 0;
+}
+//FIX THIS
+}
+
+/**
+* Return the rank as a String. For example, the 3 of Hearts produces the
+* String "3". The King of Diamonds produces the String "King".
+*
+* @return the rank String
+*/
+public String getRankString() {
+int rank = getRank();
+switch(rank)
+{
+case 11:
+return ("Jack");
+case 12:
+return ("Queen");
+case 13:
+return ("King");
+case 14:
+return ("Ace");
+default:
+return(Integer.toString(rnk));
+}
+//FIX THIS
+}
+
+/**
+* Return the suit as a String: "Clubs", "Diamonds", "Hearts" or "Spades".
+*
+* @return the suit String
+*/
+public String getSuitString() {
+int suit = getSuit();
+String s = "";
+switch(suit)
+{
+case 0:
+s = "Clubs";
+break;
+case 1:
+s = "Diamonds";
+break;
+case 2:
+s = "Hearts";
+break;
+case 3:
+s = "Spades";
+break;
+}
+return (s);//FIX THIS
+}
+
+public int value()
+{
+if(this.rnk==14)
+{
+return (1);
+}
+else if(this.rnk==10)
+{
+return (10);
+}
+else
+{
+return (this.rnk);
+}
+  
+}
+  
+/**
+* Return "?" if the card is facedown; otherwise, the rank and suit of the
+* card.
+*
+* @return the String representation
+*/
+@Override
+public String toString() {
+if (isFaceUp()==true)
+{
+return "" + getRankString() + " " + getSuitString();
+}
+else
+{
+return "?";
+}
+}
+
+public static void main(String[] args) {
+//Create 5 of clubs
+Card club5 = new Card(5, 0, true);
+System.out.println("club5: " + club5);
+Card spadeAce = new Card(14, SPADE, true);
+System.out.println("spadeAce: " + spadeAce);
+System.out.println("club5 compareTo spadeAce: "
++ club5.compareTo(spadeAce));
+System.out.println("club5 compareTo club5: "
++ club5.compareTo(club5));
+System.out.println("club5 equals spadeAce: "
++ club5.equals(spadeAce));
+System.out.println("club5 equals club5: "
++ club5.equals(club5));
+}
+}
+
+CardPile.java:
+
+import java.util.ArrayList;
+
+/**
+* A pile of cards.
+*
+*/
+public class CardPile {
+//Instance variables
+private ArrayList<Card> cards;
+
+public CardPile() {
+//Initialize the instance variable.
+cards = new ArrayList<Card>();
+}
+/**
+* Add a card to the pile.
+* @param card
+*/
+public void add(Card card) {
+this.cards.add(card);//FIX THIS
+}
+
+/**
+* Remove a card chosen at random from the pile.
+* @return
+*/
+public Card removeRandom() {
+int num = (int)(Math.random()*this.cards.size());
+//System.out.println(num);
+return (this.cards.remove(num)); //FIX THIS
+}
+
+/**
+* The string representation is a space separated list
+* of each card.
+* @return
+*/
+@Override
+public String toString() {
+String cardlist = "\n";
+for (Card card : this.cards)
+{
+cardlist += card.toString() + "\n";
+}
+//FIX THIS
+return cardlist;
+}
+  
+/**
+* @return the cards
+*/
+public ArrayList<Card> getCards() {
+return cards;
+}
+
+public static void main(String[] args) {
+CardPile p = new CardPile();
+p.add(new Card(2, 1, true));
+p.add(new Card(3, 2, true));
+p.add(new Card(4, 3, false));
+p.add(new Card(14, 1, true));
+//System.out.println(p);
+System.out.println("Removed: " + p.removeRandom());
+System.out.println("Removed: " + p.removeRandom());
+System.out.println("Removed: " + p.removeRandom());
+System.out.println("Removed: " + p.removeRandom());
+System.out.println("");
+CardPile deck = new CardPile();
+for(int i = 2; i < 15; i++) {
+for(int j = 0; j < 4; j++) {
+deck.add(new Card(i, j, true));
+}
+}
+for (int i = 0; i < 52; i++) {
+System.out.println((i+1) + ": " + deck.removeRandom());
+}
+}
+}
+
+SimpleUI.java:
+
+import java.util.Scanner;
+
+public class SimpleUI implements UserInterface {
+private BlackjackGame game;
+private Scanner user = new Scanner(System.in);
+
+@Override
+public void setGame(BlackjackGame game) {
+this.game = game;
+}
+
+@Override
+public void display() {
+//FIX THIS
+System.out.println("House holds: " + this.game.getHouseCards().toString()); //House Cards
+System.out.println("You hold: " + this.game.getYourCards().toString()); // Your cards
+}
+
+@Override
+public boolean hitMe() {
+//FIX THIS
+System.out.println("Would you like a hit? (Y/N)");
+String userChoice = user.nextLine();
+boolean hit = false;
+switch(userChoice)
+{
+case "Y":
+hit = true;
+break;
+case "N":
+hit = false;
+break;
+default:
+System.out.println("You must type either Y or N");
+hitMe();
+}
+return hit;
+}
+
+@Override
+public void gameOver() {
+//FIX THIS
+this.display();
+int yourScore = game.score(game.getYourCards());
+int houseScore = game.score(game.getHouseCards());
+System.out.println("House Score: " + houseScore + " Your Score: " + yourScore);
+if( (yourScore > houseScore || houseScore > 21) && (yourScore <= 21)){
+System.out.println("You Win!");
+}else{
+System.out.println("House Wins!");
+}
+System.out.println("Thanks for playing!");
+}
+}
+
+UserInterface.java:
+
+public interface UserInterface {//DO NOT MODIFY
+/** Set the Blackjack game
+* this UserInterface belongs to.
+* @param game
+*/
+public void setGame(BlackjackGame game);
+/**
+* Display the cards held by the House
+* and the player (you).
+*/
+public void display();
+/**
+* Prompt the user if they want another
+* card. Return true if another card
+* desired.
+* @return
+*/
+public boolean hitMe();
+/**
+* Display the final cards, scores
+* and winner.
+*/
+public void gameOver();
+}
+
+BlackjackGame.java:
+
+public class BlackjackGame {
+
+private CardPile deck;
+private CardPile houseCards;
+private CardPile yourCards;
+private boolean houseDone;
+private boolean playerDone;
+private UserInterface ui;
+
+public BlackjackGame(UserInterface ui) {
+this.ui = ui;
+ui.setGame(this);
+deck = new CardPile();
+for (int i = 2; i < 15; i++) {
+for (int j = 0; j < 4; j++) {
+deck.add(new Card(i, j, true));
+}
+}
+houseCards = new CardPile();
+yourCards = new CardPile();
+houseDone = false;
+playerDone = false;
+}
+
+public void start() {
+Card c;
+c = deck.removeRandom();
+c.setFaceUp(false);
+getHouseCards().add(c);
+getHouseCards().add(deck.removeRandom());
+getYourCards().add(deck.removeRandom());
+getYourCards().add(deck.removeRandom());
+ui.display();
+}
+
+public void play() {
+while (!houseDone || !playerDone) {
+if (!houseDone) {
+if (score(getHouseCards()) <= 17) {
+getHouseCards().add(deck.removeRandom());
+ui.display();
+} else {
+houseDone = true;
+}
+}
+if (!playerDone) {
+if (ui.hitMe()) {
+getYourCards().add(deck.removeRandom());
+ui.display();
+} else {
+playerDone = true;
+}
+}
+}
+}
+
+public void end() {
+getHouseCards().getCards().get(0).setFaceUp(true);
+ui.gameOver();
+}
+
+/**
+* Determine the score of a pile of cards.
+*
+* @param p
+* @return the score
+*/
+public int score(CardPile p) {
+//FIX THIS
+int score = 0;
+for(Card card : p.getCards())
+{
+score += card.value();
+}
+return score;
+}
+
+/**
+* @return the houseCards
+*/
+public CardPile getHouseCards() {
+return houseCards;
+}
+
+/**
+* @return the yourCards
+*/
+public CardPile getYourCards() {
+return yourCards;
+}
+
+public static void main(String[] args) {
+BlackjackGame game = new BlackjackGame(new SimpleUI());
+game.start();
+game.play();
+game.end();
+}
+}
